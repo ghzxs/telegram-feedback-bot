@@ -65,8 +65,8 @@
 ### 3. 克隆项目
 
 ```bash
-git clone https://github.com/ghzxs/telegram-customer-service-bot.git
-cd telegram-customer-service-bot
+git clone https://github.com/ghzxs/telegram-feedback-bot.git
+cd telegram-feedback-bot
 ```
 
 ### 4. 安装 Wrangler CLI
@@ -98,7 +98,7 @@ kv_namespaces = [
 
 ### 7. 配置环境变量
 
-创建 `.dev.vars` 文件：
+创建 `.env` 文件：
 
 ```bash
 BOT_TOKEN=你的_BOT_TOKEN
@@ -115,6 +115,7 @@ Worker 批量上传密钥
 ```bash
 wrangler secret bulk .env
 ```
+
 ### 9. 设置 Webhook
 
 访问以下 URL（替换为你的 Worker URL）：
@@ -148,7 +149,7 @@ telegram-customer-service-bot/
 ```toml
 name = "telegram-customer-service-bot"
 main = "src/index.js"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-11-22"
 
 kv_namespaces = [
   { binding = "BOT_KV", id = "你的KV命名空间ID" }
@@ -250,7 +251,8 @@ await banUser(env, userId, 7); // 改为其他天数
 wrangler tail
 ```
 
-### 检查 Webhook 状态
+### 检查 Webhook 状态 — 
+*(编辑代码HTTP)*
 
 ```bash
 curl https://你的worker地址/getWebhookInfo
@@ -279,13 +281,13 @@ curl https://你的worker地址/setWebhook
 解决方案：
 1. 检查 webhook 是否设置成功
 2. 查看 `wrangler tail` 日志
-3. 确认 `.dev.vars` 配置正确
-4. 重新部署 `wrangler deploy --env=""`
+3. 确认 `.env` 配置正确
+4. 重新部署 `wrangler deploy
 
 **问题：环境变量未生效**
 
 解决方案：
-1. 确认 `.dev.vars` 文件存在
+1. 确认 `.env` 文件存在
 2. 重新部署项目
 3. 检查文件格式（无引号、无空格）
 
@@ -311,29 +313,11 @@ curl https://你的worker地址/setWebhook
 
 ### 多环境部署
 
-如需开发和生产环境分离，参考 [多环境配置文档](docs/multi-environment.md)
+如需开发和生产环境分离，参考 [多环境配置文档](https://developers.cloudflare.com/workers/ci-cd/builds/)
 
 ### 自动化部署
 
-使用 GitHub Actions 自动部署：
-
-```yaml
-# .github/workflows/deploy.yml
-name: Deploy to Cloudflare Workers
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-```
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/ghzxs/telegram-feedback-bot)
 
 ## 📄 API 端点
 
@@ -357,7 +341,7 @@ jobs:
 
 ## 📝 更新日志
 
-### v1.0.0 (2024-01-01)
+### v1.0.0 (2025-11-22)
 
 - ✨ 初始版本发布
 - 🔐 点击式 CAPTCHA 验证
